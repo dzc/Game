@@ -12,14 +12,14 @@ public class AppleAnimation implements Runnable
 	private long start_czas;
 	private int czasTrwania = 30; //sekundy
 	int counter = 0;
-	GameFrame fr;
+	GameFrame frame;
 	
 //	obiekt GameFrame przekazywany jako argument konstruktora w celu blokowania lub odblokowanie
 //	przyciskami przycisków po zakonczeniu gry
 	public AppleAnimation(GameComponent comp, GameFrame frame) 
 	{
 		this.apples = comp.apples;
-		this.fr = frame;
+		this.frame = frame;
 		this.comp = comp;
 		interrupt = false;
 		speed = 2;
@@ -55,7 +55,7 @@ public class AppleAnimation implements Runnable
 					interrupt = true;
 					comp.finishGame = true;
 					comp.repaint();
-					fr.stop();
+					frame.stop();
 				}
 
 //				generowanie nowych jabłek o wspolrzednych OY ponad rysunkiem,
