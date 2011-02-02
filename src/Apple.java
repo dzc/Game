@@ -1,3 +1,7 @@
+/*
+ * Klasa Apple, posiada informacje o konkretnym jablku predkosci oraz polozeniu.. * 
+ */
+
 public class Apple
 {
 	private int x;
