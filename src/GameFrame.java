@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -9,12 +8,11 @@ import javax.swing.JPanel;
 
 public class GameFrame extends JFrame 
 {
-	
 	private boolean pause;
-	private Runnable r;
+	private AppleAnimation r;
 	private Thread t;
 	private JButton startButton, pauseButton, stopButton;
-	private Component oknoGry;
+	private GameComponent oknoGry;
 	public static final int DEFAULT_WIDTH= 800;
 	public static final int DEFAULT_HEIGHT= 660;
 	public static final String title = "Gra";
@@ -51,7 +49,7 @@ public class GameFrame extends JFrame
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				((AppleAnimation)r).interrupt = true;
+				r.interrupt = true;
 				startButton.setEnabled(true);
 				pauseButton.setEnabled(false);
 				pause = true;		
@@ -69,31 +67,32 @@ public class GameFrame extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(!pause)
-					((GameComponent)oknoGry).generateApples();
+					oknoGry.generateApples();
 	
 				start();
 				startButton.setEnabled(false);
 				pauseButton.setEnabled(true);
 				stopButton.setEnabled(true);
-				if(((GameComponent)oknoGry).finishGame)
+				if(oknoGry.finishGame)
 				{
-					((GameComponent)oknoGry).amountOfCatched = 0;
+					oknoGry.amountOfCatched = 0;
 				}
 				pause = false;
-				((GameComponent)oknoGry).finishGame = false; 
+				oknoGry.firstScreen= false; 
+				oknoGry.finishGame = false; 
 			}
 		});
 	}
 	
 	public void stop()
 	{
-		((AppleAnimation)r).interrupt = true;
-		((GameComponent)oknoGry).clear();
+		r.interrupt = true;
+		oknoGry.clear();
 		startButton.setEnabled(true);
 		pauseButton.setEnabled(false);
 		stopButton.setEnabled(false);
 		pause = false;
-		((GameComponent)oknoGry).finishGame = true;
+		oknoGry.finishGame = true;
 	}
 	public void start()
 	{			

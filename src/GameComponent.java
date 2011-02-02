@@ -141,7 +141,6 @@ public class GameComponent extends Canvas
 			g.drawImage(background, 0, 0, null);
 			g.setFont(new Font("Monospaced", Font.BOLD | Font.ITALIC, 25));
 			g.drawString("Naciśnij START aby rozpocząć grę.", getWidth()/2-250, getHeight()/2);	
-			firstScreen = false;
 		}
 		if (finishGame)
 		{
