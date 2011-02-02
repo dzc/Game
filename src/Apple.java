@@ -1,5 +1,6 @@
 /*
- * Klasa Apple, posiada informacje o konkretnym jablku predkosci oraz polozeniu.. * 
+ * Klasa Apple, posiada informacje o konkretnym jablku predkosci oraz polozeniu..
+ * Test test test 
  */
 
 public class Apple
