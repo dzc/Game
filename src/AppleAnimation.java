@@ -22,6 +22,8 @@ public class AppleAnimation implements Runnable
 	
 //	obiekt GameFrame przekazywany jako argument konstruktora w celu blokowania lub odblokowanie
 //	przyciskami przycisków po zakonczeniu gry
+//	obecnie przy zmianie speed trzeba zmienic takze wartosc w ComponentGame przy rozpoznaniu kiedy bedzie zlapane jablko
+//	rozwiazaniem moze byc przeniesienie zmiennej speed do klasy Apple, wtedy wartosc dla kazdego jablka moze byc rozna
 	public AppleAnimation(GameComponent comp, GameFrame frame) 
 	{
 		this.apples = comp.apples;

@@ -133,7 +133,7 @@ public class GameComponent extends Canvas
 //			warunek jezeli chodzi o os Y, zakres od 0 do 3 jest buforem bezpieczenstwa, poniewaz jezeli speed jablka
 //			jest 2 i by było tylko przy lapanie jezeli dokladnie jablko zetknie sie z koszem,
 //			to wtedy przy 2 moze tego nei zauwazyc
-			if( distance >= 0 && distance <= 3 &&
+			if( distance >= 0 && distance <= 5 &&
 //					warunek jezeli chodzi o os OX (zmnieszczenie sie jablka w koszu)
 					x_mouse-bucket.getWidth()/2 <= (a.getX()-apple.getWidth()/2) && 
 					(x_mouse+bucket.getWidth()/2) >= (a.getX() + apple.getWidth()/2))
