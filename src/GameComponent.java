@@ -1,3 +1,9 @@
+/*
+ * Klasa odpowiadająca za wczytanie grafik jablka, koszyka, tlo itp.
+ * oraz ich wyswietlanie, wyłaczanie kursora, detekcji czy jablko zostalo zlapane
+ * obsluge klawiatury i myszy (w klasach wewnetrznych)
+ */
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -36,7 +42,6 @@ public class GameComponent extends Canvas
 	public List<Apple> apples; 
 	boolean firstScreen, finishGame;
 	
-	
 	public GameComponent()
 	{
 		//ustawienie niewidocznego kursora dla komponentu
@@ -63,7 +68,6 @@ public class GameComponent extends Canvas
 		
 		apples = new LinkedList<Apple>();
 		generator = new Random();
-	
 	}
 
 //	tworzy jablka ponad rysowanym ekranem dlatego wspolrzedne OY maja minus
@@ -82,7 +86,7 @@ public class GameComponent extends Canvas
 		repaint();	
 	}
 	
-	//funkcja wczytujaca pliki png
+//	funkcja wczytujaca pliki png
 	public BufferedImage loadFile (String filename)
 	{
 		BufferedImage temp = null;
@@ -110,31 +114,42 @@ public class GameComponent extends Canvas
 		
 //		rysowanie aktualnego polozenia wiadra
 		offgc.drawImage(bucket, x_mouse-bucket.getWidth()/2, getHeight()-bucket.getHeight(), null);
-//		rysowanie aktualnego polozenia wszystkich jablek znajdujacych sie w kontenerze LinkedList
-//		mozna rysowac wszystkie poniewaz te co siegaja dolu ekranu lub zostana zlapane sa kasowane 
-//		z kontenera
-		for(Apple a : apples)
-			offgc.drawImage(apple, a.getX()-apple.getWidth()/2, a.getY()-apple.getHeight()/2, null);
 
-		offgc.setColor(Color.white);
-		offgc.setFont(monoFont);
-		offgc.drawString("Zebrałeś: " + amountOfCatched, 680, 20);
-		g.drawImage(offscreen, 0, 0, this);	
-
-//		sprawdzenie aktualnego polozenia jablek wzgledem kosza, jezeli odleglosc oraz wspolrzedne OX
-//		mieszcza sie w zakresie wtedy jablko zostaje oznaczone jako zlapane
-//		licznik zostaje zwiekszany w obiekcie klasy AppleAnimation a jablko usuwane z kontenera
 		for(Apple a : apples)
 		{
-			int distance = (a.getY()+apple.getHeight()-50) - (getHeight()-bucket.getHeight());
-			if( distance >= 1 && distance <= 5 &&
+//			rysowanie aktualnego polozenia wszystkich jablek znajdujacych sie w kontenerze LinkedList
+//			mozna rysowac wszystkie poniewaz te co siegaja dolu ekranu lub zostana zlapane sa kasowane 
+//			z kontenera, grafika jest wysrodkowa czyli jezeli jablko ma wspolrzedne x=10 y=10 to srodek
+//			grafiki np. jablka znajduje sie w tym polu stad a.getX()-apple.getWidth()/2, aby wysrodkowach
+//			domyslnie w javie lewy gorny rog ma wsporzedne podane w funkcji drawImage.
+			offgc.drawImage(apple, a.getX()-apple.getWidth()/2, a.getY()-apple.getHeight()/2, null);
+			
+//			sprawdzenie aktualnego polozenia jablka wzgledem kosza, jezeli odleglosc oraz wspolrzedne OX
+//			mieszcza sie w zakresie wtedy jablko zostaje oznaczone jako zlapane
+//			licznik zostaje zwiekszany w obiekcie klasy AppleAnimation a jablko usuwane z kontenera
+//			"apple.getHeight()/2-20" dlatego -20 poniewaz kosz jest zrobiony z perspektywy, takze jablko spada
+//			spada troche nizej o 20 niz ma wysokosc kosza - daje zludzenie ze wpada do srodka
+			int distance = (a.getY()+apple.getHeight()/2-20) - (getHeight()-bucket.getHeight());
+//			warunek jezeli chodzi o os Y, zakres od 0 do 3 jest buforem bezpieczenstwa, poniewaz jezeli speed jablka
+//			jest 2 i by było tylko przy lapanie jezeli dokladnie jablko zetknie sie z koszem,
+//			to wtedy przy 2 moze tego nei zauwazyc
+			if( distance >= 0 && distance <= 3 &&
+//					warunek jezeli chodzi o os OX (zmnieszczenie sie jablka w koszu)
 					x_mouse-bucket.getWidth()/2 <= (a.getX()-apple.getWidth()/2) && 
 					(x_mouse+bucket.getWidth()/2) >= (a.getX() + apple.getWidth()/2))
 			{
 				a.setCatched();
 			}	
-		}	
+		}
 		
+		offgc.setColor(Color.white);
+		offgc.setFont(monoFont);
+		offgc.drawString("Zebrałeś: " + amountOfCatched, 680, 20);
+//		rysowanie stworzonego obrazu w pamieci na ekran
+		g.drawImage(offscreen, 0, 0, this);	
+
+//		wyswietlanie pierwszego obrazu po zaladowaniu programu, firstScreen przyjmuje wartosc false po nacisnieciu
+//		przycisku start
 		if (firstScreen) 
 		{ 
 			((Graphics2D)g).setRenderingHint (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); 
@@ -142,6 +157,8 @@ public class GameComponent extends Canvas
 			g.setFont(new Font("Monospaced", Font.BOLD | Font.ITALIC, 25));
 			g.drawString("Naciśnij START aby rozpocząć grę.", getWidth()/2-250, getHeight()/2);	
 		}
+//		przyjmuje wartosc true, gdy zostanie nacisniety przycisk STOP, lub gdy skonczy sie czas gry (def. czasu w klasie
+//		AppleAnimation 
 		if (finishGame)
 		{
 			g.setColor(Color.red);
@@ -153,7 +170,7 @@ public class GameComponent extends Canvas
 	
 	public void update(Graphics g) { paint(g); }	
 	
-// klasa wewnetrzna do sterowania mysza (musi implementowac interfejs MouseMotionListener
+// klasa wewnetrzna do sterowania mysza, implementuje interfejs MouseMotionListener
 	class MouseMotionHandler implements MouseMotionListener
 	{
 		@Override

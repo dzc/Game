@@ -1,3 +1,9 @@
+/*
+ * Klasa odpowiadająca za przesuwanie jabłek w dół, 
+ * w określonym czasie, kasowanie oraz generowanie
+ * nowych jablek na ekran
+ */
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,7 +44,10 @@ public class AppleAnimation implements Runnable
 				while(iter.hasNext())
 				{
 					Apple a = iter.next();
+//					przesuwanie jablka w dol
 					a.move(speed);
+//					jezeli jablko zostalo zlapane lub jest poniezej ekranu
+//					nastepuje kasowanie z kontenera
 					if(a.isCatched() || a.getY() > comp.getHeight()+50)
 					{
 						if(a.isCatched()) comp.amountOfCatched++;
